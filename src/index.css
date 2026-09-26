@@ -19,15 +19,15 @@
   --radius-sm: 12px;
 
   /* Glassmorphism Design Tokens */
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-bg-hover: rgba(255, 255, 255, 0.85);
-  --glass-bg-subtle: rgba(234, 246, 255, 0.55);
+  --glass-bg: rgba(255, 255, 255, 0.58);
+  --glass-bg-hover: rgba(255, 255, 255, 0.75);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.42);
   --glass-border: rgba(255, 255, 255, 0.85);
-  --glass-border-subtle: rgba(95, 168, 232, 0.24);
-  --glass-shadow: 0 8px 32px 0 rgba(27, 78, 128, 0.08), inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
-  --glass-shadow-sm: 0 4px 16px 0 rgba(27, 78, 128, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
-  --glass-blur: blur(14px) saturate(160%);
-  -webkit-glass-blur: blur(14px) saturate(160%);
+  --glass-border-subtle: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 12px 36px 0 rgba(27, 78, 128, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+  --glass-shadow-sm: 0 6px 20px 0 rgba(27, 78, 128, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+  --glass-blur: blur(20px) saturate(190%);
+  -webkit-glass-blur: blur(20px) saturate(190%);
 }
 
 * {
@@ -38,14 +38,73 @@ body {
   margin: 0;
   font: 14px/1.6 Inter, system-ui, -apple-system, sans-serif;
   color: var(--ink);
-  background: 
-    radial-gradient(circle at 10% 15%, rgba(95, 168, 232, 0.18) 0%, transparent 40%),
-    radial-gradient(circle at 90% 85%, rgba(255, 180, 84, 0.15) 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(211, 236, 255, 0.3) 0%, transparent 60%),
-    var(--blue-bg);
-  background-attachment: fixed;
+  background: var(--blue-bg);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Ambient Glow Orbs */
+.glass-ambient-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+}
+
+.glass-orb-1 {
+  width: 540px;
+  height: 540px;
+  background: radial-gradient(circle, #5FA8E8 0%, #2E7BC4 100%);
+  top: -100px;
+  left: 10%;
+  opacity: 0.55;
+  animation: floatOrb 20s ease-in-out infinite alternate;
+}
+
+.glass-orb-2 {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, #FFB454 0%, #F0932B 100%);
+  bottom: 0;
+  right: -50px;
+  opacity: 0.5;
+  animation: floatOrb 24s ease-in-out infinite alternate-reverse;
+}
+
+.glass-orb-3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #2E7BC4 0%, #1B4E80 100%);
+  top: 40%;
+  left: -80px;
+  opacity: 0.4;
+  animation: floatOrb 18s ease-in-out infinite alternate;
+}
+
+.glass-orb-4 {
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, #FFB454 0%, #5FA8E8 100%);
+  top: 25%;
+  right: 20%;
+  opacity: 0.35;
+  animation: floatOrb 26s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(35px, 25px) scale(1.06); }
+  100% { transform: translate(-25px, 45px) scale(0.96); }
 }
 
 h1, h2, h3, .logo-text {
@@ -102,6 +161,8 @@ textarea {
 .shell {
   display: flex;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 .shell-main {
@@ -125,6 +186,8 @@ main {
   align-items: center;
   justify-content: center;
   padding: 24px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Glass Cards */
@@ -143,6 +206,7 @@ main {
 
 .card:hover {
   border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 14px 40px 0 rgba(27, 78, 128, 0.14), inset 0 1px 1px 0 rgba(255, 255, 255, 1);
 }
 
 .auth-card {
@@ -151,7 +215,11 @@ main {
   padding: 36px 32px;
   text-align: center;
   border-radius: 24px;
-  box-shadow: 0 12px 40px 0 rgba(27, 78, 128, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 48px 0 rgba(27, 78, 128, 0.16), inset 0 1px 2px 0 rgba(255, 255, 255, 1);
 }
 
 /* Logo */
@@ -467,11 +535,11 @@ select:focus {
 .side-nav {
   width: 244px;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.68);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-right: 1px solid var(--glass-border);
-  box-shadow: 2px 0 20px rgba(27, 78, 128, 0.04);
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(25px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  border-right: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 4px 0 28px rgba(27, 78, 128, 0.07);
   padding: 22px 14px;
   position: sticky;
   top: 0;

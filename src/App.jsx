@@ -40,9 +40,19 @@ export default function App() {
   const { session, currentPage, setCurrentPage } = useApp();
   const [editingUserParams, setEditingUserParams] = useState(null);
 
+  const ambientOrbs = (
+    <div className="glass-ambient-container" aria-hidden="true">
+      <div className="glass-orb glass-orb-1" />
+      <div className="glass-orb glass-orb-2" />
+      <div className="glass-orb glass-orb-3" />
+      <div className="glass-orb glass-orb-4" />
+    </div>
+  );
+
   if (!session) {
     return (
       <>
+        {ambientOrbs}
         <AuthPage />
         <Toast />
       </>
@@ -136,7 +146,9 @@ export default function App() {
   };
 
   return (
-    <div className="shell">
+    <>
+      {ambientOrbs}
+      <div className="shell">
       <Sidebar />
       <div className="shell-main">
         <main>
@@ -160,5 +172,6 @@ export default function App() {
       </div>
       <Toast />
     </div>
+    </>
   );
 }
