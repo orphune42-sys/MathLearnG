@@ -137,7 +137,7 @@ export default function CorrectionPage() {
 
   return (
     <div>
-      <div className="eyebrow">Penilaian Essay</div>
+      <div className="eyebrow">Koreksi AI</div>
       <h2>Koreksi Jawaban Uraian / HOTS</h2>
       <p className="section-sub">
         Periksa jawaban uraian dan foto lembar kerja siswa. Nilai akhir dihitung setelah seluruh essay dikoreksi.

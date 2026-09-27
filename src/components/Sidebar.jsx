@@ -46,7 +46,7 @@ export default function Sidebar() {
       { id: 'nilai', icon: BarChart2, label: 'Nilai & Sinkron' },
       { id: 'jadwal', icon: Calendar, label: 'Jadwal Pelajaran' },
       { id: 'deteksi', icon: AlertTriangle, label: 'Deteksi Keluar Tab' },
-      { id: 'koreksi', icon: CheckSquare, label: 'Koreksi Essay' },
+      { id: 'koreksi', icon: CheckSquare, label: 'Koreksi AI' },
       { id: 'profile', icon: User, label: 'Profil Saya' }
     ],
     admin: [

@@ -1,0 +1,54 @@
+{
+  "jadwalSiswa": [
+    {
+      "kelas": "KELAS VII A",
+      "kodeMapel": "MTK-01",
+      "namaMapel": "Matematika",
+      "namaGuru": "Mila",
+      "hari": "Senin",
+      "jam": "07.00 - 08.20 WIB"
+    },
+    {
+      "kelas": "KELAS VII B",
+      "kodeMapel": "MTK-02",
+      "namaMapel": "Matematika",
+      "namaGuru": "Mila",
+      "hari": "Selasa",
+      "jam": "08.20 - 09.40 WIB"
+    },
+    {
+      "kelas": "KELAS VII C",
+      "kodeMapel": "MTK-03",
+      "namaMapel": "Matematika",
+      "namaGuru": "Mila",
+      "hari": "Rabu",
+      "jam": "07.00 - 08.20 WIB"
+    }
+  ],
+  "jadwalGuru": {
+    "namaGuru": "Ibu Mila S.Pd",
+    "jadwalMengajar": [
+      {
+        "kodeMapel": "MTK-01",
+        "namaMapel": "Matematika",
+        "kelas": "VII A",
+        "hari": "Senin",
+        "jam": "07.00 - 08.20 WIB"
+      },
+      {
+        "kodeMapel": "MTK-02",
+        "namaMapel": "Matematika",
+        "kelas": "VII B",
+        "hari": "Selasa",
+        "jam": "08.20 - 09.40 WIB"
+      },
+      {
+        "kodeMapel": "MTK-03",
+        "namaMapel": "Matematika",
+        "kelas": "VII C",
+        "hari": "Rabu",
+        "jam": "07.00 - 08.20 WIB"
+      }
+    ]
+  }
+}

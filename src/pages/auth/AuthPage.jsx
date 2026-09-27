@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useApp, roles, religions, ADMIN_EMAIL_DOMAIN } from '../../context/AppContext';
-import { GraduationCap, BookOpen, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { GraduationCap, BookOpen, ShieldCheck, ArrowLeft, Home } from 'lucide-react';
+import LandingPage from './LandingPage';
 
 export default function AuthPage() {
   const { state, saveStateToStorage, login, notify } = useApp();
-  const [mode, setMode] = useState('choose'); // 'choose', 'login', 'register'
+  const [mode, setMode] = useState('landing'); // 'landing', 'choose', 'login', 'register'
   const [selectedRole, setSelectedRole] = useState('siswa');
   const [error, setError] = useState('');
 
@@ -16,6 +17,22 @@ export default function AuthPage() {
   const [kelas, setKelas] = useState('');
   const [jenisKelamin, setJenisKelamin] = useState('');
   const [agama, setAgama] = useState('');
+
+  if (mode === 'landing') {
+    return (
+      <LandingPage
+        onGoLogin={() => {
+          setMode('choose');
+          setError('');
+        }}
+        onGoRegister={() => {
+          setSelectedRole('siswa');
+          setMode('register');
+          setError('');
+        }}
+      />
+    );
+  }
 
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
@@ -110,9 +127,23 @@ export default function AuthPage() {
   return (
     <section className="center-shell">
       <div className="card auth-card">
-        <div className="brand">
-          <div className="logo-badge">∑</div>
-          <div className="logo-text">Elearn<span>Math</span></div>
+        <div className="brand" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+          <div className="row" style={{ gap: 8 }}>
+            <div className="logo-badge">∑</div>
+            <div className="logo-text">Elearn<span>Math</span></div>
+          </div>
+          <button
+            type="button"
+            className="text-btn"
+            style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+            onClick={() => {
+              setMode('landing');
+              setError('');
+            }}
+          >
+            <Home size={14} />
+            Beranda
+          </button>
         </div>
 
         {mode === 'choose' && (
@@ -282,12 +313,12 @@ export default function AuthPage() {
                     required
                     value={kelas}
                     onChange={(e) => setKelas(e.target.value)}
-                    placeholder={selectedRole === 'guru' ? 'VII-A, VII-B' : 'VII-A'}
+                    placeholder={selectedRole === 'guru' ? 'VII A, VII B, VII C' : 'VII A'}
                   />
                   <p className="hint-text">
                     {selectedRole === 'guru'
                       ? 'Pisahkan beberapa kelas dengan koma.'
-                      : 'Samakan penulisan dengan kelas gurumu.'}
+                      : 'Contoh: VII A, VII B, atau VII C'}
                   </p>
                 </div>
               )}
@@ -370,7 +401,7 @@ export default function AuthPage() {
         )}
 
         <div className="note" style={{ marginTop: 24 }}>
-          Akun dan data tersimpan lokal pada browser ini. Gunakan akun demonstrasi atau daftarkan akun baru.
+          Akun dan data tersimpan lokal pada peramban ini.
         </div>
       </div>
     </section>
