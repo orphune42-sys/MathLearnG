@@ -31,7 +31,6 @@
       const data = await resp.json();
       if (data.success) {
         alert('Login berhasil!');
-        // For demo, redirect to schedule view (could be a new page)
         window.location.href = '/schedule.html';
       } else {
         alert(data.error || 'Login gagal');

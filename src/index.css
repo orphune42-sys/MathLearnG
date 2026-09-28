@@ -17,8 +17,6 @@
   --danger-bg: #FDEAE7;
   --radius: 20px;
   --radius-sm: 12px;
-
-  /* Glassmorphism Design Tokens */
   --glass-bg: rgba(255, 255, 255, 0.58);
   --glass-bg-hover: rgba(255, 255, 255, 0.75);
   --glass-bg-subtle: rgba(255, 255, 255, 0.42);
@@ -45,7 +43,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Glassmorphism Ambient Glow Orbs */
 .glass-ambient-container {
   position: fixed;
   inset: 0;
@@ -157,7 +154,6 @@ textarea {
   display: none !important;
 }
 
-/* Glassmorphic Shell & Layout */
 .shell {
   display: flex;
   min-height: 100vh;
@@ -190,7 +186,6 @@ main {
   z-index: 1;
 }
 
-/* Glass Cards */
 .card {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -222,7 +217,6 @@ main {
   box-shadow: 0 16px 48px 0 rgba(27, 78, 128, 0.16), inset 0 1px 2px 0 rgba(255, 255, 255, 1);
 }
 
-/* Logo */
 .logo-badge {
   width: 38px;
   height: 38px;
@@ -279,7 +273,6 @@ main {
   color: var(--blue-800);
 }
 
-/* Form Fields */
 .field {
   display: flex;
   flex-direction: column;
@@ -294,9 +287,7 @@ main {
   color: var(--blue-800);
 }
 
-input:not([type=checkbox]):not([type=radio]),
-textarea,
-select {
+input:not([type=checkbox]):not([type=radio]),textarea,select {
   border: 1.5px solid var(--glass-border-subtle);
   border-radius: 12px;
   padding: 10px 14px;
@@ -310,21 +301,15 @@ select {
   transition: all 0.2s ease;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
+input:focus,textarea:focus,select:focus {
   outline: none;
   border-color: var(--blue-400);
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 0 0 3px rgba(95, 168, 232, 0.25);
 }
 
-/* Buttons */
-.btn-primary,
-.btn-secondary,
-.btn-accent,
-.btn-outline-sm,
-.btn-danger-sm {
+
+.btn-primary,.btn-secondary,.btn-accent,.btn-outline-sm,.btn-danger-sm {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -374,8 +359,7 @@ select:focus {
   box-shadow: 0 6px 18px rgba(240, 147, 43, 0.4);
 }
 
-.btn-outline-sm,
-.btn-danger-sm {
+.btn-outline-sm,.btn-danger-sm {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(8px);
   border-color: var(--line);
@@ -531,7 +515,6 @@ select:focus {
   margin-bottom: 4px;
 }
 
-/* Glass Side Navigation */
 .side-nav {
   width: 244px;
   flex-shrink: 0;
@@ -639,7 +622,6 @@ select:focus {
   text-decoration: underline;
 }
 
-/* Hero Glass Section */
 .hero {
   background: linear-gradient(135deg, rgba(46, 123, 196, 0.92), rgba(27, 78, 128, 0.96));
   backdrop-filter: var(--glass-blur);
@@ -678,7 +660,6 @@ select:focus {
   font-weight: 500;
 }
 
-/* Stat Cards */
 .stat-card {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -712,7 +693,6 @@ select:focus {
   font-weight: 500;
 }
 
-/* Pulsing Online Dot */
 .pulse-dot {
   width: 10px;
   height: 10px;
@@ -747,7 +727,6 @@ select:focus {
   display: inline-block;
 }
 
-/* Progress bar */
 .progress-track {
   background: rgba(211, 236, 255, 0.7);
   height: 10px;
@@ -763,7 +742,6 @@ select:focus {
   transition: width 0.4s ease;
 }
 
-/* Material cards */
 .materi-card {
   cursor: pointer;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
@@ -804,7 +782,6 @@ select:focus {
   border: 1.5px dashed var(--blue-400);
 }
 
-/* Assessment Question Options */
 .option-btn {
   display: flex;
   align-items: center;
@@ -1000,7 +977,6 @@ fieldset {
   color: var(--blue-800);
 }
 
-/* Toast */
 #toast {
   position: fixed;
   bottom: 24px;
@@ -1018,7 +994,6 @@ fieldset {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Camera Dialog */
 .glass-dialog {
   border: 1px solid var(--glass-border);
   border-radius: 20px;
@@ -1083,7 +1058,6 @@ video {
   border: 1px solid var(--line);
 }
 
-/* Responsive */
 @media (max-width: 860px) {
   .shell {
     flex-direction: column;
