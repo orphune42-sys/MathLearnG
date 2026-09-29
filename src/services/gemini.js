@@ -47,7 +47,7 @@ Tanggapan kamu HARUS berformat JSON valid dengan struktur persis seperti ini:
     }
   }
 
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key.trim()}`;
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key.trim()}`;
 
   const requestBody = {
     contents: [
