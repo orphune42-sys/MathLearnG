@@ -107,7 +107,8 @@ const defaultState = {
   ],
   settings: {
     lkpdPassingGrade: 75,
-    evaluasiDeadline: null
+    evaluasiDeadline: null,
+    geminiApiKey: ''
   },
   googleSheet: {
     webAppUrl: '',

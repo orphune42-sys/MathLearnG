@@ -1,12 +1,30 @@
 import React, { useState } from 'react';
 import { useApp, labels } from '../../context/AppContext';
-import { CheckSquare, Sparkles, Save, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Sparkles, Save, CheckCircle2, AlertCircle, Loader2, Key, Settings } from 'lucide-react';
+import { evaluateEssayWithGemini } from '../../services/gemini';
 
 export default function CorrectionPage() {
   const { state, saveStateToStorage, teacherStudents, getSubmission, session, notify } = useApp();
   const students = teacherStudents();
 
   const [formData, setFormData] = useState({});
+  const [loadingKey, setLoadingKey] = useState(null);
+  const [showKeyInput, setShowKeyInput] = useState(false);
+  const [apiKeyInput, setApiKeyInput] = useState(state.settings?.geminiApiKey || '');
+
+  const envKey = import.meta.env.VITE_GEMINI_API_KEY || '';
+  const activeApiKey = apiKeyInput.trim() || state.settings?.geminiApiKey || envKey;
+
+  const handleSaveApiKey = () => {
+    const nextSettings = {
+      ...state.settings,
+      geminiApiKey: apiKeyInput.trim()
+    };
+    if (saveStateToStorage({ ...state, settings: nextSettings })) {
+      notify('API Key Gemini berhasil disimpan.');
+      setShowKeyInput(false);
+    }
+  };
 
   const handleFieldChange = (user, section, index, field, value) => {
     const key = `${user}-${section}-${index}`;
@@ -19,29 +37,42 @@ export default function CorrectionPage() {
     }));
   };
 
-  const handleSuggest = (student, section, index, essay) => {
+  const handleSuggest = async (student, section, index, essay) => {
     const key = `${student.username}-${section}-${index}`;
-    const words = String(essay.answer || '').trim().split(/\s+/).filter(Boolean);
 
-    let suggestedScore = 60;
-    let suggestedFeedback = 'Penjelasan perlu dilengkapi dengan konsep matematika yang lebih terperinci.';
-
-    if (words.length > 25) {
-      suggestedScore = 90;
-      suggestedFeedback = 'Penjelasan terstruktur dengan baik. Periksa kembali kecermatan langkah dan hasil akhir.';
-    } else if (words.length > 12) {
-      suggestedScore = 80;
-      suggestedFeedback = 'Pemahaman konsep cukup baik, lengkapi dengan contoh atau pembuktian sederhana.';
+    if (!activeApiKey) {
+      notify('Harap masukkan Gemini API Key terlebih dahulu.');
+      setShowKeyInput(true);
+      return;
     }
 
-    setFormData(prev => ({
-      ...prev,
-      [key]: {
-        score: suggestedScore,
-        feedback: suggestedFeedback
+    setLoadingKey(key);
+
+    try {
+      const result = await evaluateEssayWithGemini({
+        prompt: essay.prompt,
+        answer: essay.answer,
+        photo: essay.photo,
+        apiKey: activeApiKey
+      });
+
+      setFormData(prev => ({
+        ...prev,
+        [key]: {
+          score: result.score,
+          feedback: result.feedback
+        }
+      }));
+
+      notify('Koreksi AI Gemini selesai! Nilai dan catatan berhasil diperbarui.');
+    } catch (err) {
+      notify(`Gagal mengevaluasi dengan AI: ${err.message}`);
+      if (err.message.includes('API Key')) {
+        setShowKeyInput(true);
       }
-    }));
-    notify('Saran koreksi ditampilkan. Tinjau kembali sebelum menyimpan nilai.');
+    } finally {
+      setLoadingKey(null);
+    }
   };
 
   const handleSave = (student, section, index) => {
@@ -137,11 +168,48 @@ export default function CorrectionPage() {
 
   return (
     <div>
-      <div className="eyebrow">Koreksi AI</div>
-      <h2>Koreksi Jawaban Uraian / HOTS</h2>
-      <p className="section-sub">
-        Periksa jawaban uraian dan foto lembar kerja siswa. Nilai akhir dihitung setelah seluruh essay dikoreksi.
-      </p>
+      <div className="eyebrow">Koreksi AI Gemini</div>
+      <div className="row spread" style={{ alignItems: 'flex-start' }}>
+        <div>
+          <h2>Koreksi Jawaban Uraian / HOTS</h2>
+          <p className="section-sub">
+            Periksa jawaban uraian dan foto lembar kerja siswa dengan bantuan kecerdasan buatan Google Gemini.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          className="btn-secondary"
+          onClick={() => setShowKeyInput(!showKeyInput)}
+          style={{ gap: 6 }}
+        >
+          <Key size={14} />
+          {activeApiKey ? 'Pengaturan API Key (Aktif)' : 'Setel Gemini API Key'}
+        </button>
+      </div>
+
+      {showKeyInput && (
+        <div className="card" style={{ marginBottom: 20, backgroundColor: 'var(--surface-hover, #f8fafc)' }}>
+          <h4 style={{ margin: '0 0 8px 0' }} className="row">
+            <Settings size={16} /> Pengaturan Gemini API Key
+          </h4>
+          <p style={{ fontSize: 13, color: 'var(--muted, #64748b)', marginBottom: 12 }}>
+            Masukkan API Key dari Google AI Studio (https://aistudio.google.com) agar fitur koreksi AI otomatis dapat bekerja.
+          </p>
+          <div className="row" style={{ gap: 8 }}>
+            <input
+              type="password"
+              placeholder="Masukkan Gemini API Key (AIzaSy...)"
+              value={apiKeyInput}
+              onChange={(e) => setApiKeyInput(e.target.value)}
+              style={{ flex: 1 }}
+            />
+            <button type="button" className="btn-primary" onClick={handleSaveApiKey}>
+              Simpan Key
+            </button>
+          </div>
+        </div>
+      )}
 
       {essayEntries.length > 0 ? (
         essayEntries.map(({ student, section, index, essay }) => {
@@ -149,6 +217,7 @@ export default function CorrectionPage() {
           const currentInput = formData[formKey] || {};
           const currentScore = currentInput.score !== undefined ? currentInput.score : (essay.score ?? '');
           const currentFeedback = currentInput.feedback !== undefined ? currentInput.feedback : (essay.feedback || '');
+          const isLoading = loadingKey === formKey;
 
           return (
             <div key={formKey} className="card">
@@ -206,15 +275,26 @@ export default function CorrectionPage() {
                   <button
                     type="button"
                     className="btn-secondary"
+                    disabled={isLoading}
                     onClick={() => handleSuggest(student, section, index, essay)}
                   >
-                    <Sparkles size={14} />
-                    Saran Koreksi Otomatis
+                    {isLoading ? (
+                      <>
+                        <Loader2 size={14} className="spin" style={{ animation: 'spin 1s linear infinite' }} />
+                        Menganalisis dengan AI...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles size={14} />
+                        Koreksi AI (Gemini)
+                      </>
+                    )}
                   </button>
 
                   <button
                     type="button"
                     className="btn-primary"
+                    disabled={isLoading}
                     onClick={() => handleSave(student, section, index)}
                   >
                     <Save size={14} />
